@@ -1,0 +1,55 @@
+<div className="w-full mt-3 xl:mt-0 flex-1 border-2 border-dashed dark:border-darkmode-400 rounded-md pt-4">
+                  <div className="grid grid-cols-10 gap-5 pl-4 pr-5">
+            
+                        {imageURL.map((imagesrc, index) => (
+                          <div
+                            key={index}
+                            className="col-span-5 md:col-span-2 h-28 relative image-fit cursor-pointer zoom-in"
+                          >
+                            <img
+                              className="rounded-md"
+                              alt="Midone - HTML Admin Template"
+                              src={imagesrc}
+                            />
+                            <Tippy
+                              content="Remove this image?"
+                              className="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-danger right-0 top-0 -mr-2 -mt-2"
+                            >
+                              <Lucide icon="X" className="w-4 h-4" />
+                            </Tippy>
+                          </div>
+                        ))}
+
+                  </div>
+                        <div className="px-4 pb-4 mt-5 flex items-center justify-center cursor-pointer relative">
+                          <Lucide icon="Image" className="w-4 h-4 mr-2" />
+                          <span className="text-primary mr-1">Upload a file</span> or
+                          drag and drop
+                          <input
+                            id="horizontal-form-1"
+                            type="file"
+                            multiple
+                            className="w-full h-full top-0 left-0 absolute opacity-0"
+                            onChange={onImageChange}
+                          />
+                  <Test/>
+                  </div>
+
+                </div>
+
+                IBMPlexSansThai: ["IBM Plex Sans Thai"],
+
+
+
+                const bimgurl = async () => {
+                  const file = imageFront[0];
+                  const metadata = {
+                    contentType: "image/jpeg",
+                  };
+                  const fileRef = storageRef.child(`${id}/${ver}/Front/${id}-front` + file.name);
+                  const uploadTaskSnapshot = await fileRef.put(file, metadata);
+                  const downloadURL = await uploadFront.ref.getDownloadURL();
+                  setBackImgURL((prev) => [...prev, downloadURL]);
+            
+                  console.log(downloadURL);
+                };

@@ -1,4 +1,4 @@
-import { LoadingIcon, Modal, ModalBody } from "@/base-components";
+
 import { useState, useEffect, useRef } from "react";
 import Productinfo from "./DesignInfo";
 import Uploadproduct from "./uploadproduct";
@@ -10,7 +10,7 @@ import { addDesign } from "../../actions/product";
 import useDidMountEffect from "../../hook/useDidMountEffect";
 import { useSelector } from "react-redux";
 import { START_LOADING } from "../../constants/actionTypes";
-import { Lucide, Notification, PreviewComponent, Preview, Source, Highlight } from "@/base-components";
+import { Lucide, Notification, PreviewComponent, Preview, Source, Highlight,LoadingIcon, Modal, ModalBody } from "@/base-components";
 
 function Main() {
   const { Prodata, isLoading } = useSelector((state) => state.product);

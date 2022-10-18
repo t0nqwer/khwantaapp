@@ -4,7 +4,7 @@ import posts from "./Reducer/posts";
 import inputs from "./Reducer/pattern";
 import FabricType from "./Reducer/fabrictype";
 import category from "./Reducer/category";
-import fabric from "./Reducer/fabric";
+
 import brand from "./Reducer/brand";
 import size from "./Reducer/size";
 import sizede from "./Reducer/sizede";
@@ -17,7 +17,6 @@ export const reducers = combineReducers({
   posts: posts,
   FabricType: FabricType,
   category: category,
-  fabric: fabric,
   brand: brand,
   sizeName: size,
   sizede: sizede,

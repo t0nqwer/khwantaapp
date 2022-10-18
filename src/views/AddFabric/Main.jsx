@@ -1,144 +1,125 @@
-import { useState, useEffect } from "react";
-import Productinfo from "./Productinfo";
-import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "@/firebase";
+import { useState, useEffect, useRef } from "react";
+import AdddFabric from "./AddFabric";
 import { useDispatch } from "react-redux";
-import { addproduct } from "../../actions/product";
+import { useSelector } from "react-redux";
+import {
+  Lucide,
+  Notification,
+  LoadingIcon,
+  Modal,
+  ModalBody,
+} from "@/base-components";
+import { addFabric } from "../../actions/fabric";
 
 function Main() {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.FabricType[4]);
 
   //----------getdata--------------
-  const [imageBack, setImageBack] = useState(null);
-  const [imageFront, setImageFront] = useState(null);
-  const [imageDetail, setImageDetail] = useState(null);
-  const [GetSize, setGetSize] = useState([]);
-
-  const getFrontimg = (e) => {
-    const FrontImg = e;
-    setImageFront(FrontImg);
-    console.log(e);
-  };
-
-  const getBackimg = (e) => {
-    const BackImg = e;
-    setImageBack(BackImg);
-    console.log(e);
-  };
-
-  const getDetailimg = (e) => {
-    const DetailImg = e;
-    setImageDetail(DetailImg);
-    console.log(e);
-  };
 
   const [Product, setProduct] = useState({
-    code: "",
-    title: "",
-    description: "",
-    category: "",
+    type: "",
+    type_id: "",
+    weaving: "",
+    weaving_id: "",
+    color: "",
+    color_id: "",
     pattern: "",
-    price: "",
-    fabric: "",
-    brand: "",
-    Front_img: "",
-    Back_img: "",
+    pattern_id: "",
   });
 
-  const [SizeInfo, setSizeInfo] = useState({ size_info_id: "", size_id: "", product_id: "" });
-  const [SizeDeInfo, setSizeDeInfo] = useState({ size_de_id: "", size_info_id: "", size_info: "" });
-  const [ProductStockInfo, setProductStockInfo] = useState({ product_id: "", size_info_id: "", product_stock_barcode: "" });
-
-  const ProductInfoHandler = (data) => {
+  const InfoHandler = (data) => {
     setProduct({
       ...Product,
-      code: data.code,
-      brand: data.brand,
-      fabric: data.fabric,
-      title: data.title,
-      price: data.price,
-      category: data.category,
+      type: data.type,
+      type_id: data.type_id,
+      weaving: data.weaving,
+      weaving_id: data.weaving_id,
+      color: data.color,
+      color_id: data.color_id,
       pattern: data.pattern,
-      description: data.description,
+      pattern_id: data.pattern_id,
     });
   };
-
-  const SaveSize = (e) => {
-    setGetSize(e);
-  };
-
-  useEffect(() => {
-    const size_info = GetSize.map((e) => {
-      return e.name;
-    });
-    const removeDuplicate = [...new Set(size_info)];
-  }, [GetSize]);
 
   const SaveProduct = () => {
-    if (imageFront == null && imageBack == null) return;
-    const id = Product.code;
-
-    const promises = [];
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-
-    promises.push(uploadTaskDetail(), uploadTaskBack(), uploadTaskFront());
-    async function uploadTaskDetail() {
-      const imgdetail = [];
-      await imageDetail.map(async (e, index) => {
-        const fileRef = ref(storage, `${id}/Detail/${index}-detail`);
-        const uploadTaskSnapshot = await uploadBytes(fileRef, e, metadata);
-        const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
-
-        imgdetail.push(downloadURL);
-      });
-      console.log(imgdetail);
-      return imgdetail;
-    }
-    async function uploadTaskBack() {
-      const file = imageBack[0];
-      const fileRef = ref(storage, `${id}/Back/${id}-back`);
-      const uploadTaskSnapshot = await uploadBytes(fileRef, file, metadata);
-      const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
-
-      return downloadURL;
-    }
-    async function uploadTaskFront() {
-      const file = imageFront[0];
-      const fileRef = ref(storage, `${id}/Front/${id}-front`);
-      const uploadTaskSnapshot = await uploadBytes(fileRef, file, metadata);
-      const downloadFrontURL = await getDownloadURL(uploadTaskSnapshot.ref);
-
-      return downloadFrontURL;
-    }
-    Promise.all(promises)
-      .then((result) => {
-        console.log(result[0]);
-        const datainfo = { ...Product, Front_img: result[2], Back_img: result[1] };
-
-        let addproductdata = [datainfo, result[0], GetSize];
-
-        dispatch(addproduct(addproductdata));
-      })
-
-      .catch((err) => console.log(err));
+    if (Product.type.length === 0) return TypeNotificationToggle();
+    if (Product.weaving.length === 0) return WeavingNotificationToggle();
+    if (Product.color.length === 0) return ColorNotificationToggle();
+    dispatch(addFabric(Product));
   };
 
+  const TypeNotification = useRef();
+  const TypeNotificationToggle = () => {
+    // Show notification
+    TypeNotification.current.showToast();
+  };
+  const WeavingNotification = useRef();
+  const WeavingNotificationToggle = () => {
+    // Show notification
+    WeavingNotification.current.showToast();
+  };
+  const ColorNotification = useRef();
+  const ColorNotificationToggle = () => {
+    // Show notification
+    ColorNotification.current.showToast();
+  };
   return (
     <>
+      {/* isloading */}
+      {isLoading ? (
+        <div className="  z-50 flex flex-row fixed min-h-screen justify-center items-center left-1  min-w-full   opacity-100">
+          <LoadingIcon icon="grid" className="absolute w-20 h-20" />
+          <div className="bg-teal-800 w-screen h-screen opacity-40"></div>
+        </div>
+      ) : (
+        ""
+      )}
+      {/* notification */}
+      <Notification
+        getRef={(el) => {
+          TypeNotification.current = el;
+        }}
+        options={{
+          duration: 3000,
+        }}
+        className="flex flex-col sm:flex-row"
+      >
+        <div className="font-medium">โปรดประเภทเลือเส้นด้าย</div>
+      </Notification>
+      <Notification
+        getRef={(el) => {
+          WeavingNotification.current = el;
+        }}
+        options={{
+          duration: 3000,
+        }}
+        className="flex flex-col sm:flex-row"
+      >
+        <div className="font-medium">โปรดเลือกเทคนิคการทอ</div>
+      </Notification>
+      <Notification
+        getRef={(el) => {
+          ColorNotification.current = el;
+        }}
+        options={{
+          duration: 3000,
+        }}
+        className="flex flex-col sm:flex-row"
+      >
+        <div className="font-medium">โปรดเลือกวิธีย้อมสีผ้า</div>
+      </Notification>
+      {/* main */}
       <div className="intro-y flex items-center mt-8">
         <h2 className="text-lg font-medium mr-auto">เพิ่มผ้า</h2>
       </div>
       <div className="grid grid-cols-11 gap-x-6 mt-5 pb-20">
         <div className="intro-y col-span-11 ">
-          <Productinfo OnProductInfoHandler={ProductInfoHandler} />
-
+          <AdddFabric OnInfoHandler={InfoHandler} />
           <div className="flex justify-end flex-col md:flex-row gap-2 mt-5">
             <button type="button" className="btn py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 w-full md:w-52">
               Cancel
             </button>
-
             <button type="button" onClick={SaveProduct} className="btn py-3 btn-primary w-full md:w-52">
               Save
             </button>

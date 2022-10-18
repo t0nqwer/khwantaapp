@@ -19,6 +19,7 @@ export default (state = { isLoading: true, Prodata: [], Design: [] }, action) =>
     case GETPRODUCTBYSEARCH:
       return action.payload;
     case ADDPRODUCT:
+      console.log({ ...state, data: [...state.Product, action.payload] });
       return { ...state, data: [...state.Product, action.payload] };
     case GETDESIGNCODE:
       return { ...state, Design: action.payload };

@@ -48,16 +48,16 @@ const Productinfo = (props) => {
     });
   }, [select1]);
 
-  useEffect(() => {
-    const titlee = fabric.filter((o) => o.fabric_id === +select2);
-    const fabrictype = titlee[0]?.fabric_type_id === 1 ? "ฝ้าย" : "ไหม";
-    setProductData({
-      ...ProductData,
-      fabric: select2,
-      fabricName: `ผ้า${fabrictype}${titlee[0]?.title}`,
-      title: `${ProductData.codeName}ผ้า${fabrictype}${titlee[0]?.title}`,
-    });
-  }, [select2]);
+  // useEffect(() => {
+  //   const titlee = fabric.filter((o) => o.fabric_id === +select2);
+  //   const fabrictype = titlee[0]?.fabric_type_id === 1 ? "ฝ้าย" : "ไหม";
+  //   setProductData({
+  //     ...ProductData,
+  //     fabric: select2,
+  //     fabricName: `ผ้า${fabrictype}${titlee[0]?.title}`,
+  //     title: `${ProductData.codeName}ผ้า${fabrictype}${titlee[0]?.title}`,
+  //   });
+  // }, [select2]);
 
   useEffect(() => {
     props.OnProductInfoHandler(ProductData);
@@ -121,7 +121,7 @@ const Productinfo = (props) => {
                   ผ้า
                 </label>
 
-                <TomSelect
+                {/* <TomSelect
                   value={select2}
                   onChange={setSelect2}
                   options={{
@@ -135,7 +135,7 @@ const Productinfo = (props) => {
                       {fabric.fabric_type_id === 1 ? "ฝ้าย" : "ไหม"} {fabric.title}
                     </option>
                   ))}
-                </TomSelect>
+                </TomSelect> */}
               </div>
             </div>
             <div className="input-form mt-5">

@@ -1,10 +1,12 @@
-import { FETCH } from "@/constants/actionTypes";
+import { ADDFABRIC, GETFABRICTYPE } from "@/constants/actionTypes";
+import { START_LOADING, END_LOADING } from "../../constants/actionTypes";
 
-export default (inputs = [], action) => {
+export default (fabrictype = [], action) => {
   switch (action.type) {
-    case FETCH:
-      return action.payload;
+    case ADDFABRIC:
+      return [...fabrictype, action.payload];
+
     default:
-      return inputs;
+      return fabrictype;
   }
 };

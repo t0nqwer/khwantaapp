@@ -5,6 +5,7 @@ import TopMenu from "../layouts/top-menu/Main";
 import Page1 from "../views/page-1/Main";
 import AddDesign from "../views/AddDesign/Main";
 import AddProduct from "../views/AddProduct/Main";
+import AddFabric from "../views/AddFabric/Main"
 import OtherProduct from "../views/OtherProduct/Main";
 import AddImportProduct from "../views/AddImportProduct/Main"
 import ProductGrid from "../views/product-grid/Main";
@@ -44,7 +45,7 @@ function Router({ setCurrentId }) {
         },
         {
           path: "add-Fabric",
-          element: <AddDesign />,
+          element: <AddFabric />,
         },
         {
           path: "product/:id",

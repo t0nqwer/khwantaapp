@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:8080";
+const url = "https://khwanta56-zfn2h52c7a-uc.a.run.app";
 
 export const createPost = (newPost) => axios.post(url, newPost);
 export const likePost = (id) => axios.patch(`${url}/${id}/likePost`);

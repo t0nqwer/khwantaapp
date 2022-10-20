@@ -8,7 +8,7 @@ import {
   GETDESIGNCODE,
 } from "../../constants/actionTypes";
 
-export default (state = { isLoading: true, Prodata: [], Design: [] }, action) => {
+export default (state = { isLoading: true, Prodata: [], Design: [], Fabric: [] }, action) => {
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };
@@ -22,7 +22,8 @@ export default (state = { isLoading: true, Prodata: [], Design: [] }, action) =>
       console.log({ ...state, data: [...state.Product, action.payload] });
       return { ...state, data: [...state.Product, action.payload] };
     case GETDESIGNCODE:
-      return { ...state, Design: action.payload };
+      console.log(action.payload);
+      return { ...state, Design: action.payload[0], Fabric: action.payload[1] };
 
     default:
       return state;

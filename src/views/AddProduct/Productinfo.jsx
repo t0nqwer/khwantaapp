@@ -12,17 +12,15 @@ const Productinfo = (props) => {
 
   const fabric = useSelector((state) => state.fabric);
 
-  const { Design } = useSelector((state) => state.product);
+  const { Design, Fabric } = useSelector((state) => state.product);
   //----------------------------------------------------------------
   //state----------------------------------------------------------------
   //----------------------------------------------------------------
-
 
   const [priceCheck, setPriceCheck] = useState(false);
 
   const [select1, setSelect1] = useState("100");
   const [select2, setSelect2] = useState("100");
-
 
   const [ProductData, setProductData] = useState({
     code: "",
@@ -39,7 +37,7 @@ const Productinfo = (props) => {
 
   useEffect(() => {
     const title = Design.filter((o) => o.code === select1);
- 
+
     setProductData({
       ...ProductData,
       code: title[0]?.code,
@@ -48,16 +46,16 @@ const Productinfo = (props) => {
     });
   }, [select1]);
 
-  // useEffect(() => {
-  //   const titlee = fabric.filter((o) => o.fabric_id === +select2);
-  //   const fabrictype = titlee[0]?.fabric_type_id === 1 ? "ฝ้าย" : "ไหม";
-  //   setProductData({
-  //     ...ProductData,
-  //     fabric: select2,
-  //     fabricName: `ผ้า${fabrictype}${titlee[0]?.title}`,
-  //     title: `${ProductData.codeName}ผ้า${fabrictype}${titlee[0]?.title}`,
-  //   });
-  // }, [select2]);
+  useEffect(() => {
+    const titlee = Fabric.filter((o) => o.fabric_id === +select2);
+
+    setProductData({
+      ...ProductData,
+      fabric: select2,
+      fabricName: `${titlee[0]?.title}`,
+      title: `${ProductData.codeName}${titlee[0]?.title}`,
+    });
+  }, [select2]);
 
   useEffect(() => {
     props.OnProductInfoHandler(ProductData);
@@ -68,17 +66,14 @@ const Productinfo = (props) => {
   };
 
   const pricehandler = (e) => {
-    console.log(~~e.target.value);
-
     if (~~e.target.value === 0) {
-      console.log("worng");
       setPriceCheck(true);
+      setProductData({ ...ProductData, price: e.target.value });
       return;
     }
     setPriceCheck(false);
     setProductData({ ...ProductData, price: e.target.value });
   };
-
 
   return (
     <>
@@ -121,7 +116,7 @@ const Productinfo = (props) => {
                   ผ้า
                 </label>
 
-                {/* <TomSelect
+                <TomSelect
                   value={select2}
                   onChange={setSelect2}
                   options={{
@@ -130,12 +125,12 @@ const Productinfo = (props) => {
                   className=" w-full"
                 >
                   <option defaultValue value="100"></option>
-                  {fabric.map((fabric) => (
+                  {Fabric.map((fabric) => (
                     <option key={fabric.fabric_id} id={fabric.fabric_id} value={fabric.fabric_id}>
-                      {fabric.fabric_type_id === 1 ? "ฝ้าย" : "ไหม"} {fabric.title}
+                      {fabric.title}
                     </option>
                   ))}
-                </TomSelect> */}
+                </TomSelect>
               </div>
             </div>
             <div className="input-form mt-5">

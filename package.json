@@ -2,7 +2,7 @@
   "name": "enigma-react",
   "version": "0.0.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://khwanta56-zfn2h52c7a-uc.a.run.app",
   "main": "main.js",
   "homepage": "./",
   "scripts": {
